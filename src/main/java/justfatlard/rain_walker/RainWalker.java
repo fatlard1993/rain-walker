@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.BlockState;
@@ -29,6 +30,10 @@ public class RainWalker implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		// Register mod assets (lang files) with Polymer for vanilla clients
+		PolymerResourcePackUtils.addModAssets(MOD_ID);
+		PolymerResourcePackUtils.markAsRequired();
+
 		System.out.println("[rain-walker] Rain Walker enchantment loaded");
 
 		// Register tick event to remove expired ice platforms
