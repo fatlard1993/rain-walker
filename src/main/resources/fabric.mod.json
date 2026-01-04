@@ -6,9 +6,9 @@
 	"description": "Adds the Rain Walker enchantment - run through the rain on ice platforms",
 	"authors": ["justfatlard"],
 	"contact": {
-		"homepage": "https://github.com/justfatlard/rain-walker",
-		"sources": "https://github.com/justfatlard/rain-walker",
-		"issues": "https://github.com/justfatlard/rain-walker/issues"
+		"homepage": "https://github.com/fatlard1993/rain-walker",
+		"sources": "https://github.com/fatlard1993/rain-walker",
+		"issues": "https://github.com/fatlard1993/rain-walker/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/rain-walker/icon.png",
