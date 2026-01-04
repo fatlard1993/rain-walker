@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "rain-walker",
+	"version": "${version}",
+	"name": "Rain Walker",
+	"description": "Adds the Rain Walker enchantment - run through the rain on ice platforms",
+	"authors": ["justfatlard"],
+	"contact": {
+		"homepage": "https://github.com/justfatlard/rain-walker",
+		"sources": "https://github.com/justfatlard/rain-walker",
+		"issues": "https://github.com/justfatlard/rain-walker/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/rain-walker/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["justfatlard.rain_walker.RainWalker"]
+	},
+	"mixins": ["rain-walker.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.18.1",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
