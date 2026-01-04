@@ -22,9 +22,13 @@ A Fabric mod for Minecraft 1.21.11 that adds the **Rain Walker** enchantment.
 
 ## Installation
 
-1. Install [Fabric Loader](https://fabricmc.net/use/)
+**Server-side only** - clients don't need the mod installed.
+
+1. Install [Fabric Loader](https://fabricmc.net/use/) on your server
 2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Drop `rain-walker-x.x.x.jar` into your `mods` folder
+3. Drop `rain-walker-x.x.x.jar` into your server's `mods` folder
+
+Uses [Polymer](https://modrinth.com/mod/polymer) to serve translations to vanilla clients.
 
 ## License
 

@@ -6,7 +6,9 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-repositories {}
+repositories {
+	maven { url 'https://maven.nucleoid.xyz' }
+}
 
 loom {}
 
@@ -15,6 +17,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// Polymer for server-side resource pack hosting (translations)
+	modImplementation include("eu.pb4:polymer-autohost:0.15.1+1.21.11")
 }
 
 processResources {
