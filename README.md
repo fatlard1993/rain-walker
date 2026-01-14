@@ -14,6 +14,11 @@ A Fabric mod for Minecraft 1.21.11 that adds the **Rain Walker** enchantment.
 - Treasure enchantment (found in loot, not enchanting table)
 - Mutually exclusive with Frost Walker and Depth Strider
 
+## Screenshots
+
+![Rain Walker](img.png)
+![Rain Walker in Action](img2.png)
+
 ## Requirements
 
 - Minecraft 1.21.11
