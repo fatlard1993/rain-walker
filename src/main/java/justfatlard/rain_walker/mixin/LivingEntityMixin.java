@@ -6,13 +6,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import justfatlard.rain_walker.RainWalker;
 
@@ -22,12 +22,12 @@ public class LivingEntityMixin {
 	@Unique
 	private int rainWalkCooldown = 0;
 
-	@Inject(method = "tickMovement", at = @At("TAIL"))
+	@Inject(method = "aiStep", at = @At("TAIL"))
 	private void onTickMovement(CallbackInfo ci) {
 		LivingEntity self = (LivingEntity)(Object)this;
-		World world = self.getEntityWorld();
+		Level world = self.level();
 
-		if (world.isClient()) return;
+		if (world.isClientSide()) return;
 
 		// Decrease cooldown
 		if (rainWalkCooldown > 0) {
@@ -36,21 +36,21 @@ public class LivingEntityMixin {
 		}
 
 		// Only trigger when falling (not on ground and moving downward)
-		if (self.isOnGround()) return;
+		if (self.onGround()) return;
 
-		Vec3d velocity = self.getVelocity();
+		Vec3 velocity = self.getDeltaMovement();
 		if (velocity.y >= 0) return; // Not falling
 
-		ItemStack boots = self.getEquippedStack(EquipmentSlot.FEET);
+		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
 		if (boots.isEmpty()) return;
 
 		// Get the enchantment from registry
-		var enchantmentRegistry = world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
-		var rainWalkerOpt = enchantmentRegistry.getOptional(RainWalker.RAIN_WALKER);
+		var enchantmentRegistry = world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+		var rainWalkerOpt = enchantmentRegistry.get(RainWalker.RAIN_WALKER);
 
 		if (rainWalkerOpt.isEmpty()) return;
 
-		int level = EnchantmentHelper.getLevel(rainWalkerOpt.get(), boots);
+		int level = EnchantmentHelper.getItemEnchantmentLevel(rainWalkerOpt.get(), boots);
 
 		if (level > 0) {
 			if (RainWalker.createIcePlatform(self, world, level)) {

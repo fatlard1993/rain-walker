@@ -12,16 +12,15 @@
 	},
 	"license": "MIT",
 	"icon": "assets/rain-walker/icon.png",
-	"environment": "server",
+	"environment": "*",
 	"entrypoints": {
 		"main": ["justfatlard.rain_walker.RainWalker"]
 	},
 	"mixins": ["rain-walker.mixins.json"],
 	"depends": {
 		"fabricloader": ">=0.18.1",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
-		"fabric-api": "*",
-		"polymer-autohost": "*"
+		"minecraft": ">=26.1",
+		"java": ">=25",
+		"fabric-api": "*"
 	}
 }

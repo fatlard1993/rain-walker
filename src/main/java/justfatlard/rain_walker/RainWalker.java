@@ -4,41 +4,43 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import justfatlard.pandorical.api.PandoricalApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
 public class RainWalker implements ModInitializer {
 	public static final String MOD_ID = "rain-walker";
 
-	public static final RegistryKey<net.minecraft.enchantment.Enchantment> RAIN_WALKER =
-		RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(MOD_ID, "rain_walker"));
+	public static final ResourceKey<Enchantment> RAIN_WALKER =
+		ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MOD_ID, "rain_walker"));
 
 	// Track ice platforms for removal (position -> removal tick)
 	private static final Map<BlockPos, Long> icePlatforms = new ConcurrentHashMap<>();
 
 	@Override
 	public void onInitialize() {
-		// Register mod assets (lang files) with Polymer for vanilla clients
-		PolymerResourcePackUtils.addModAssets(MOD_ID);
-		PolymerResourcePackUtils.markAsRequired();
+		// Register with Pandorical if available
+		if (PandoricalApi.isAvailable()) {
+			PandoricalApi.content().registerModAssets(MOD_ID);
+		}
 
 		System.out.println("[rain-walker] Rain Walker enchantment loaded");
 
 		// Register tick event to remove expired ice platforms
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			long currentTick = server.getOverworld().getTime();
+			long currentTick = server.overworld().getGameTime();
 			Iterator<Map.Entry<BlockPos, Long>> iterator = icePlatforms.entrySet().iterator();
 
 			while (iterator.hasNext()) {
@@ -46,9 +48,9 @@ public class RainWalker implements ModInitializer {
 				if (currentTick >= entry.getValue()) {
 					BlockPos pos = entry.getKey();
 					// Remove ice from all dimensions (check overworld, nether, end)
-					for (ServerWorld world : server.getWorlds()) {
-						if (world.getBlockState(pos).isOf(Blocks.ICE)) {
-							world.setBlockState(pos, Blocks.AIR.getDefaultState());
+					for (ServerLevel world : server.getAllLevels()) {
+						if (world.getBlockState(pos).getBlock() == Blocks.ICE) {
+							world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 							break;
 						}
 					}
@@ -62,30 +64,30 @@ public class RainWalker implements ModInitializer {
 	 * Creates an ice platform under the entity when falling in rain
 	 * Returns true if ice was placed
 	 */
-	public static boolean createIcePlatform(LivingEntity entity, World world, int level) {
-		BlockPos entityPos = entity.getBlockPos();
-		BlockPos belowPos = entityPos.down();
+	public static boolean createIcePlatform(LivingEntity entity, Level world, int level) {
+		BlockPos entityPos = entity.blockPosition();
+		BlockPos belowPos = entityPos.below();
 
 		// Check if it's raining at the entity's position (must be exposed to sky and raining)
-		if (!world.hasRain(entityPos)) {
+		if (!world.isRainingAt(entityPos)) {
 			return false;
 		}
 
 		BlockState currentBelow = world.getBlockState(belowPos);
 
 		// Don't place if there's already a solid block
-		if (!currentBelow.isAir() && !currentBelow.isLiquid()) {
+		if (!currentBelow.isAir() && !currentBelow.liquid()) {
 			return false;
 		}
 
 		// Use regular ice (not frosted ice which melts to water)
-		BlockState ice = Blocks.ICE.getDefaultState();
+		BlockState ice = Blocks.ICE.defaultBlockState();
 
-		if (ice.canPlaceAt(world, belowPos) && world.canPlace(ice, belowPos, ShapeContext.absent())) {
-			world.setBlockState(belowPos, ice);
+		if (ice.canSurvive(world, belowPos) && world.isUnobstructed(ice, belowPos, CollisionContext.empty())) {
+			world.setBlock(belowPos, ice, 3);
 			// Schedule removal after 1-2 seconds (20-40 ticks)
-			long removalTick = world.getTime() + MathHelper.nextInt(entity.getRandom(), 20, 40);
-			icePlatforms.put(belowPos.toImmutable(), removalTick);
+			long removalTick = world.getGameTime() + Mth.nextInt(entity.getRandom(), 20, 40);
+			icePlatforms.put(belowPos.immutable(), removalTick);
 			return true;
 		}
 
