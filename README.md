@@ -1,39 +1,26 @@
 # Rain Walker
 
-A Fabric mod for Minecraft 1.21.11 that adds the **Rain Walker** enchantment.
+A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting ice platform under your feet whenever you're caught running or falling in the rain, so you can sprint across open ground without slowing down or taking fall damage.
 
 ## Features
 
-**Rain Walker** lets you run through the rain on ice platforms - like the dragons in *Raya and the Last Dragon* flying through rain.
-
-- Enchantment for boots
-- Creates ice platforms under your feet when falling in rain
-- Prevents fall damage when ice is placed
-- Ice disappears after 1-2 seconds (no water left behind)
-- Only works when exposed to rain (open sky + raining)
-- Treasure enchantment (found in loot, not enchanting table)
+- New treasure enchantment for boots: found in loot, not obtainable at the enchanting table
+- Creates a temporary ice platform under your feet when you're exposed to open sky and it's raining
+- Prevents fall damage while the ice platform is placed
+- Ice disappears after roughly 1-2 seconds and leaves no water behind
 - Mutually exclusive with Frost Walker and Depth Strider
-
-## Screenshots
-
-![Rain Walker](img.png)
-![Rain Walker in Action](img2.png)
 
 ## Requirements
 
-- Minecraft 1.21.11
-- Fabric Loader 0.18.1+
-- Fabric API
+Targets the Minecraft, Fabric Loader, and Fabric API versions declared in this mod's `gradle.properties`; check there for the exact currently-supported version.
+
+## Pandorical
+
+Rain Walker is a server-side mod. If Pandorical is installed on the server, the mod uses `PandoricalApi.content().registerModAssets()` to sync its translations and other client assets (such as the enchantment's display name) to Pandorical clients. This is the only Pandorical usage; Rain Walker has no custom UI. Pandorical is not required for the enchantment's gameplay effects to work; it only affects whether a client sees the proper localized name for the enchantment.
 
 ## Installation
 
-**Server-side only** - clients don't need the mod installed.
-
-1. Install [Fabric Loader](https://fabricmc.net/use/) on your server
-2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
-3. Drop `rain-walker-x.x.x.jar` into your server's `mods` folder
-
-Uses [Polymer](https://modrinth.com/mod/polymer) to serve translations to vanilla clients.
+**Server-side**: install alongside its declared dependencies (see `fabric.mod.json`). Clients do not need any mod installed to experience the enchantment's effects.
 
 ## License
 

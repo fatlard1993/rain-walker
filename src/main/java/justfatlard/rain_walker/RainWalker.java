@@ -31,14 +31,13 @@ public class RainWalker implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// Register with Pandorical if available
 		if (PandoricalApi.isAvailable()) {
 			PandoricalApi.content().registerModAssets(MOD_ID);
 		}
 
 		System.out.println("[rain-walker] Rain Walker enchantment loaded");
 
-		// Register tick event to remove expired ice platforms
+		// Sweep expired ice platforms each server tick
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			long currentTick = server.overworld().getGameTime();
 			Iterator<Map.Entry<BlockPos, Long>> iterator = icePlatforms.entrySet().iterator();
@@ -47,7 +46,7 @@ public class RainWalker implements ModInitializer {
 				Map.Entry<BlockPos, Long> entry = iterator.next();
 				if (currentTick >= entry.getValue()) {
 					BlockPos pos = entry.getKey();
-					// Remove ice from all dimensions (check overworld, nether, end)
+					// The map doesn't record dimension, so search every level for the ice
 					for (ServerLevel world : server.getAllLevels()) {
 						if (world.getBlockState(pos).getBlock() == Blocks.ICE) {
 							world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -60,22 +59,16 @@ public class RainWalker implements ModInitializer {
 		});
 	}
 
-	/**
-	 * Creates an ice platform under the entity when falling in rain
-	 * Returns true if ice was placed
-	 */
 	public static boolean createIcePlatform(LivingEntity entity, Level world, int level) {
 		BlockPos entityPos = entity.blockPosition();
 		BlockPos belowPos = entityPos.below();
 
-		// Check if it's raining at the entity's position (must be exposed to sky and raining)
 		if (!world.isRainingAt(entityPos)) {
 			return false;
 		}
 
 		BlockState currentBelow = world.getBlockState(belowPos);
 
-		// Don't place if there's already a solid block
 		if (!currentBelow.isAir() && !currentBelow.liquid()) {
 			return false;
 		}

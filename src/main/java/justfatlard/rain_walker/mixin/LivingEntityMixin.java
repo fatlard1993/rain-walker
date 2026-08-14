@@ -29,22 +29,19 @@ public class LivingEntityMixin {
 
 		if (world.isClientSide()) return;
 
-		// Decrease cooldown
 		if (rainWalkCooldown > 0) {
 			rainWalkCooldown--;
 			return;
 		}
 
-		// Only trigger when falling (not on ground and moving downward)
 		if (self.onGround()) return;
 
 		Vec3 velocity = self.getDeltaMovement();
-		if (velocity.y >= 0) return; // Not falling
+		if (velocity.y >= 0) return;
 
 		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
 		if (boots.isEmpty()) return;
 
-		// Get the enchantment from registry
 		var enchantmentRegistry = world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 		var rainWalkerOpt = enchantmentRegistry.get(RainWalker.RAIN_WALKER);
 
@@ -57,7 +54,7 @@ public class LivingEntityMixin {
 				// Short cooldown for smooth rain running
 				rainWalkCooldown = 1;
 
-				// Reset fall distance since we landed on ice
+				// Cancel accumulated fall damage before the platform catches the entity
 				self.fallDistance = 0;
 			}
 		}
