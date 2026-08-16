@@ -10,10 +10,6 @@ A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting 
 - Ice disappears after roughly 1-2 seconds and leaves no water behind
 - Mutually exclusive with Frost Walker and Depth Strider
 
-## Requirements
-
-Targets the Minecraft, Fabric Loader, and Fabric API versions declared in this mod's `gradle.properties`; check there for the exact currently-supported version.
-
 ## Pandorical
 
 Rain Walker runs server-side, and Pandorical is a hard dependency (`fabric.mod.json`): the server will not load this mod without it. It syncs the enchantment's translations through `PandoricalApi.content().registerModAssets()`, and that is the whole of its Pandorical usage; there is no custom UI.
@@ -22,8 +18,8 @@ Clients are the optional half, and the stake is only the name. A player on a Pan
 
 ## Installation
 
-**Server-side**: install alongside its declared dependencies (see `fabric.mod.json`). Clients do not need any mod installed to experience the enchantment's effects.
+Install server-side alongside its declared dependencies (see `fabric.mod.json`); connecting clients need only Pandorical. Version targets live in `gradle.properties` (Minecraft, loader, Fabric API) and `fabric.mod.json` (Java).
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+MIT, see [LICENSE](LICENSE).
