@@ -16,7 +16,9 @@ Targets the Minecraft, Fabric Loader, and Fabric API versions declared in this m
 
 ## Pandorical
 
-Rain Walker is a server-side mod. If Pandorical is installed on the server, the mod uses `PandoricalApi.content().registerModAssets()` to sync its translations and other client assets (such as the enchantment's display name) to Pandorical clients. This is the only Pandorical usage; Rain Walker has no custom UI. Pandorical is not required for the enchantment's gameplay effects to work; it only affects whether a client sees the proper localized name for the enchantment.
+Rain Walker runs server-side, and Pandorical is a hard dependency (`fabric.mod.json`): the server will not load this mod without it. It syncs the enchantment's translations through `PandoricalApi.content().registerModAssets()`, and that is the whole of its Pandorical usage; there is no custom UI.
+
+Clients are the optional half, and the stake is only the name. A player on a Pandorical client sees "Rain Walker"; a player on a vanilla client sees the raw translation key. The enchantment works identically either way.
 
 ## Installation
 
