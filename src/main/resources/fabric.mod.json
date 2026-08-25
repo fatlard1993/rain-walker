@@ -24,11 +24,11 @@
 		"rain-walker.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.18.1",
-		"minecraft": ">=26.2",
+		"fabricloader": ">=${loaderVersion}",
+		"minecraft": "${minecraftDependency}",
 		"java": ">=25",
 		"pandorical": "*",
-		"fabric-api": "*"
+		"fabric-api": "${fabricApiVersion}"
 	},
 	"suggests": {
 		"village-quests-justfatlard": "*"
