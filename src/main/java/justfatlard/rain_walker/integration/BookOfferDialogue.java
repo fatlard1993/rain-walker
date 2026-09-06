@@ -50,19 +50,26 @@ public final class BookOfferDialogue {
 				MIN_REPUTATION, Integer.MAX_VALUE));
 		});
 
-		DialogueRegistry.registerDialogueHandler(OPTION_ID, BookOfferDialogue::sell);
+		// The question opens the offer; the purchase is its own button. The old
+		// handler charged the moment the question was clicked.
+		DialogueRegistry.registerRichDialogueHandler(OPTION_ID, (villager, player, optionId) ->
+			DialogueRegistry.Reply.of("Funny you should ask, on today of all days. There is a book for it. " + PRICE
+					+ " emeralds, and only while I am in this mood about the weather.")
+				.option("*pay the " + PRICE + " emeralds*", BookOfferDialogue::sell)
+				.walkAway("I'll take my chances wet."));
 	}
 
-	private static Component sell(net.minecraft.world.entity.npc.villager.Villager villager,
+	private static DialogueRegistry.Reply sell(net.minecraft.world.entity.npc.villager.Villager villager,
 			ServerPlayer player, String optionId) {
 		if (countEmeralds(player) < PRICE) {
-			return Component.literal("Funny you should ask, on today of all days. There is a book for it. " + PRICE
-				+ " emeralds, and only while I am in this mood about the weather.");
+			return DialogueRegistry.Reply.of("That is not " + PRICE + " emeralds. And the mood passes with the weather, mind.")
+				.walkAway("*count your pockets*");
 		}
 
 		ItemStack book = enchantedBook(player);
 		if (book == null) {
-			return Component.literal("...I had it here somewhere. Come back.");
+			return DialogueRegistry.Reply.of("...I had it here somewhere. Come back.")
+				.walkAway("I'll come back.");
 		}
 
 		takeEmeralds(player);
@@ -70,9 +77,10 @@ public final class BookOfferDialogue {
 			player.drop(book, false, net.minecraft.util.Prediction.SERVER_ONLY);
 		}
 
-		return Component.literal(
+		return DialogueRegistry.Reply.of(
 			"Boots. Go on then, out you go - it only makes sense while it is raining, "
-			+ "and you will not believe me about it until you have seen it.");
+			+ "and you will not believe me about it until you have seen it.")
+			.walkAway("*head out into the rain*");
 	}
 
 	/** Null when the enchantment is not in this world's registry, rather than a crash. */
