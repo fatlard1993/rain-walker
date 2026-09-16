@@ -8,6 +8,7 @@ import justfatlard.pandorical.api.PandoricalApi;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -27,7 +28,10 @@ public class RainWalker implements ModInitializer {
 		ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MOD_ID, "rain_walker"));
 
 	// Track ice platforms for removal (position -> removal tick)
-	private static final Map<BlockPos, Long> icePlatforms = new ConcurrentHashMap<>();
+	/** Where the ice went, what it stood in for, and when it goes again. */
+	private record Platform(BlockState replaced, long removeAt) {}
+
+	private static final Map<GlobalPos, Platform> icePlatforms = new ConcurrentHashMap<>();
 
 	@Override
 	public void onInitialize() {
@@ -45,20 +49,19 @@ public class RainWalker implements ModInitializer {
 		// Sweep expired ice platforms each server tick
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			long currentTick = server.overworld().getGameTime();
-			Iterator<Map.Entry<BlockPos, Long>> iterator = icePlatforms.entrySet().iterator();
+			Iterator<Map.Entry<GlobalPos, Platform>> iterator = icePlatforms.entrySet().iterator();
 
 			while (iterator.hasNext()) {
-				Map.Entry<BlockPos, Long> entry = iterator.next();
-				if (currentTick >= entry.getValue()) {
-					BlockPos pos = entry.getKey();
-					// The map doesn't record dimension, so search every level for the ice
-					for (ServerLevel world : server.getAllLevels()) {
-						if (world.getBlockState(pos).getBlock() == Blocks.ICE) {
-							world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-							break;
-						}
-					}
-					iterator.remove();
+				Map.Entry<GlobalPos, Platform> entry = iterator.next();
+				if (currentTick < entry.getValue().removeAt()) continue;
+				iterator.remove();
+
+				ServerLevel world = server.getLevel(entry.getKey().dimension());
+				BlockPos pos = entry.getKey().pos();
+				// Back to what it stood in for, water and lava included: a source it had frozen over
+				// is still a source, not a hole in the lake.
+				if (world != null && world.getBlockState(pos).is(Blocks.ICE)) {
+					world.setBlock(pos, entry.getValue().replaced(), 3);
 				}
 			}
 		});
@@ -85,7 +88,7 @@ public class RainWalker implements ModInitializer {
 			world.setBlock(belowPos, ice, 3);
 			// Schedule removal after 1-2 seconds (20-40 ticks)
 			long removalTick = world.getGameTime() + Mth.nextInt(entity.getRandom(), 20, 40);
-			icePlatforms.put(belowPos.immutable(), removalTick);
+			icePlatforms.put(GlobalPos.of(world.dimension(), belowPos.immutable()), new Platform(currentBelow, removalTick));
 			return true;
 		}
 
