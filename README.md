@@ -2,6 +2,11 @@
 
 A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting ice platform under your feet whenever you're caught running or falling in the rain, so you can sprint across open ground without slowing down or taking fall damage.
 
+## Screenshots
+
+![Ice forming underfoot in the rain, a step at a time](img.png)
+![The enchanted book: Rain Walker](img2.png)
+
 ## Features
 
 - New treasure enchantment for boots: found in loot, not obtainable at the enchanting table
