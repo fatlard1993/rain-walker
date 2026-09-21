@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "rain-walker-gametest",
+	"version": "1.0.0",
+	"name": "Rain Walker smoke test",
+	"description": "Loads the mod, joins a world, and fails if anything on the way threw.",
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-client-gametest": [
+			"justfatlard.rain_walker.gametest.SmokeTest"
+		]
+	},
+	"depends": {
+		"rain-walker": "*",
+		"fabric-client-gametest-api-v1": "*"
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"overview": [
+		"A boot enchantment. Caught running or falling in the rain, you get a fleeting ice platform underfoot, so you can sprint across open ground without slowing down or taking fall damage."
+	],
+	"versions": {
+		"2.0.2": [
+			"Ice puts back the block it covered, in the dimension it was laid, so a platform over a lake no longer leaves a hole in it. The book turns up in loot chests, and a librarian's ordinary book trades can offer rain walking the way they already offer lava walking."
+		],
+		"2.0.1": [
+			"The enchantment says what it does in its own description."
+		],
+		"2.0.0": [
+			"The Rain Walker enchantment and the ice it lays, plus a librarian who only mentions the book while it is actually raining."
+		]
+	}
+}

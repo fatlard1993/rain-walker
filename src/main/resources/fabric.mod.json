@@ -27,7 +27,7 @@
 		"fabricloader": ">=${loaderVersion}",
 		"minecraft": "${minecraftDependency}",
 		"java": ">=25",
-		"pandorical": "*",
+		"pandorical": ">=15.0.0",
 		"fabric-api": "${fabricApiVersion}"
 	},
 	"suggests": {

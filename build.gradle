@@ -15,6 +15,9 @@ repositories {
 loom {
 }
 
+// Smoke and full gametests, configured once for the whole suite in Pandorical.
+apply from: file("../pandorical/gametest.gradle")
+
 dependencies {
 	// Optional: village-quests integration, compile-only and never bundled. Resolved by the
 	// version village-quests declares rather than one written down here: a pinned name kept
