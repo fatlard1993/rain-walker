@@ -4,13 +4,16 @@
 	],
 	"versions": {
 		"2.0.2": [
-			"Ice puts back the block it covered, in the dimension it was laid, so a platform over a lake no longer leaves a hole in it. The book turns up in loot chests, and a librarian's ordinary book trades can offer rain walking the way they already offer lava walking."
+			"Ice puts back the block it covered, in the dimension it was laid.",
+			"A platform over a lake no longer leaves a hole in it.",
+			"The book turns up in loot chests, and librarians can offer rain walking."
 		],
 		"2.0.1": [
 			"The enchantment says what it does in its own description."
 		],
 		"2.0.0": [
-			"The Rain Walker enchantment and the ice it lays, plus a librarian who only mentions the book while it is actually raining."
+			"The Rain Walker enchantment and the ice it lays.",
+			"A librarian mentions the book only while it is actually raining."
 		]
 	}
 }
