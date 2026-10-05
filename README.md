@@ -5,7 +5,6 @@ A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting 
 ## Screenshots
 
 ![Ice forming underfoot in the rain, a step at a time](img.png)
-![The enchanted book: Rain Walker](img2.png)
 
 ## Features
 
