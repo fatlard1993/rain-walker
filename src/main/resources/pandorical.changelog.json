@@ -3,6 +3,9 @@
 		"A boot enchantment. Caught running or falling in the rain, you get a fleeting ice platform underfoot, so you can sprint across open ground without slowing down or taking fall damage."
 	],
 	"versions": {
+		"2.0.3": [
+			"Release notes rewritten to read plainly; nothing in play changes."
+		],
 		"2.0.2": [
 			"Ice puts back the block it covered, in the dimension it was laid.",
 			"A platform over a lake no longer leaves a hole in it.",
