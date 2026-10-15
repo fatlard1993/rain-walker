@@ -18,9 +18,7 @@ A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting 
 
 Rain Walker is a treasure enchantment: the enchanting table will never give it to you.
 
-With [village-quests](https://github.com/fatlard1993/village-quests) installed, a librarian who trusts you a great deal (60 reputation) can be asked what is to be done about all this rain, while it is raining and only then. They have a book for it, for 32 emeralds; the emeralds change hands only when you choose to pay.
-
-Optional and guarded: without village-quests the mod behaves exactly as before.
+With [village-quests](https://github.com/fatlard1993/village-quests) installed, a librarian who trusts you a great deal (60 reputation) can be asked what is to be done about all this rain, while it is raining and only then. They have a book for it, for 32 emeralds.
 
 ## Pandorical
 
