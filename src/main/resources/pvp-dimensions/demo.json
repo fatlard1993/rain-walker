@@ -1,0 +1,34 @@
+{
+  "demo": {
+    "name": "Rain Walker",
+    "icon": "minecraft:diamond_boots",
+    "about": [
+      "An enchantment for boots: in the rain, a block of ice forms under your feet whenever you fall, and you take no fall damage while it holds.",
+      "You're wearing them and it's raining. Pillar up and jump off, or run and jump out over the water, and let the ice catch you."
+    ]
+  },
+  "pvp_preset": 1,
+  "needs": ["rain-walker"],
+  "preset": {
+    "name": "Rain Walker",
+    "icon": "minecraft:diamond_boots",
+    "pvp": false,
+    "game_mode": "survival",
+    "entry_kit": [
+      {"slot": 36, "item": {"id": "minecraft:diamond_boots", "count": 1, "components": {"minecraft:enchantments": {"rain-walker:rain_walker": 1}}}},
+      {"slot": 0, "item": {"id": "minecraft:cobblestone", "count": 64}},
+      {"slot": 1, "item": {"id": "minecraft:cobblestone", "count": 64}},
+      {"slot": 2, "item": {"id": "minecraft:ladder", "count": 32}},
+      {"slot": 3, "item": {"id": "minecraft:cooked_beef", "count": 8}}
+    ],
+    "respawn_kit": "entry",
+    "goal": "time",
+    "mobs": "off",
+    "life": 15,
+    "size": 3,
+    "world": "overworld",
+    "shape": "natural",
+    "biome": "minecraft:plains",
+    "weather": "rain"
+  }
+}
