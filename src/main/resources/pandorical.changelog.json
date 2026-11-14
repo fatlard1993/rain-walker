@@ -3,6 +3,9 @@
 		"A boot enchantment. Caught running or falling in the rain, you get a fleeting ice platform underfoot, so you can sprint across open ground without slowing down or taking fall damage."
 	],
 	"versions": {
+		"2.0.6": [
+			"A demo to play in PvP Dimensions' onboarding."
+		],
 		"2.0.5": [
 			"Drop changelog notes for changes nothing in the game shows."
 		],
