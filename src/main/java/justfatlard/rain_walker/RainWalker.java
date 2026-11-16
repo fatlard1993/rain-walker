@@ -6,12 +6,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import justfatlard.pandorical.api.PandoricalApi;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,16 +57,25 @@ public class RainWalker implements ModInitializer {
 				Map.Entry<GlobalPos, Platform> entry = iterator.next();
 				if (currentTick < entry.getValue().removeAt()) continue;
 				iterator.remove();
-
-				ServerLevel world = server.getLevel(entry.getKey().dimension());
-				BlockPos pos = entry.getKey().pos();
-				// Back to what it stood in for, water and lava included: a source it had frozen over
-				// is still a source, not a hole in the lake.
-				if (world != null && world.getBlockState(pos).is(Blocks.ICE)) {
-					world.setBlock(pos, entry.getValue().replaced(), 3);
-				}
+				restore(server, entry.getKey(), entry.getValue());
 			}
 		});
+
+		// Whatever is still waiting to melt goes back before the world saves, or it would stay ice.
+		ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+			icePlatforms.forEach((pos, platform) -> restore(server, pos, platform));
+			icePlatforms.clear();
+		});
+	}
+
+	private static void restore(MinecraftServer server, GlobalPos where, Platform platform) {
+		ServerLevel world = server.getLevel(where.dimension());
+		BlockPos pos = where.pos();
+		// Back to what it stood in for, water and lava included: a source it had frozen over
+		// is still a source, not a hole in the lake.
+		if (world != null && world.getBlockState(pos).is(Blocks.ICE)) {
+			world.setBlock(pos, platform.replaced(), 3);
+		}
 	}
 
 	public static boolean createIcePlatform(LivingEntity entity, Level world, int level) {
