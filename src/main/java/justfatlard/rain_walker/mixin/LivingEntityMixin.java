@@ -40,7 +40,7 @@ public class LivingEntityMixin {
 		if (velocity.y >= 0) return;
 
 		ItemStack boots = self.getItemBySlot(EquipmentSlot.FEET);
-		if (boots.isEmpty()) return;
+		if (!boots.isEnchanted()) return;
 
 		var enchantmentRegistry = world.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 		var rainWalkerOpt = enchantmentRegistry.get(RainWalker.RAIN_WALKER);
