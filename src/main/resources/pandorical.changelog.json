@@ -3,6 +3,9 @@
 		"A boot enchantment. Caught running or falling in the rain, you get a fleeting ice platform underfoot, so you can sprint across open ground without slowing down or taking fall damage."
 	],
 	"versions": {
+		"2.0.8": [
+			"Rain walker comes from the enchanting table too."
+		],
 		"2.0.7": [
 			"Mobs falling in plain boots no longer have their boots searched for rain walker.",
 			"Ice still waiting to melt when the server stops melts first, instead of staying in the world for good."
