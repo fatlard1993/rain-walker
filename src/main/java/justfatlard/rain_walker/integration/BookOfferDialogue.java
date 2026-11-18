@@ -16,10 +16,9 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 /**
  * A librarian who has the book and will part with it for a price.
  *
- * <p>Lava Walker is a treasure enchantment, which means the game will never put
- * it on an enchanting table and a player can do everything right for a hundred
- * hours without seeing one. The only routes are fishing it out of a lake and
- * finding it in a chest, and neither is a plan.
+ * <p>Rain Walker comes from an enchanting table, a lake or a chest, and every one
+ * of those is a roll: a player can do everything right for a hundred hours
+ * without seeing one. None of them is a plan.
  *
  * <p>A librarian selling a book is the oldest idiom in the game for exactly this
  * problem, and it is a shop rather than a quest because there is nothing to do:
@@ -31,7 +30,7 @@ public final class BookOfferDialogue {
 
 	private static final String OPTION_ID = "rain-walker:book";
 
-	/** Treasure, so it costs more than a boat and asks for more than a boat did. */
+	/** A sure thing where every other route is a roll, so it costs more than a boat and asks for more than a boat did. */
 	private static final int MIN_REPUTATION = 60;
 	private static final int PRICE = 32;
 

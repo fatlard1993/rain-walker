@@ -8,7 +8,7 @@ A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting 
 
 ## Features
 
-- New treasure enchantment for boots: found in loot, not obtainable at the enchanting table
+- New enchantment for boots: from the enchanting table, and found in loot
 - Creates a temporary block of ice under your feet while you're in the air and moving down (falling, or the back half of a jump), exposed to open sky, and it's raining where you are
 - Prevents fall damage while the ice platform is placed
 - Ice disappears after roughly 1-2 seconds and leaves no water behind
@@ -16,7 +16,7 @@ A Fabric mod that adds the **Rain Walker** boot enchantment: conjure a fleeting 
 
 ## Getting One
 
-Rain Walker is a treasure enchantment: the enchanting table will never give it to you.
+The enchanting table offers it on boots, among everything else it might offer, and it turns up in loot; neither is a plan.
 
 With [village-quests](https://github.com/fatlard1993/village-quests) installed, a librarian who trusts you a great deal (60 reputation) can be asked what is to be done about all this rain, while it is raining and only then. They have a book for it, for 32 emeralds.
 
